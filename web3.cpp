@@ -47,22 +47,45 @@ class car{
         z+=(speed_z*t);
     }
 
-    bool detect_collision(car car2){
-
-    int tempx1=x,tempy1=y,tempz1=z,tempx2=car2.x,tempy2=car2.y,tempz2=car2.z;
-    move();
-    car2.move();
-    bool ansx,ansy,ansz;
-     /*we check if cordinates of car1 were initially less tham car 2 but after 
-           calling move function it became greater or not.if yes then they collide 
-            otherwise not*/
-    ansx=(tempx1<tempx2&&x>=car2.x)||(tempx1>tempx2&&x<=car2.x); 
-    ansy=(tempy1<tempy2&&y>=car2.y)||(tempy1>tempy2&&y<=car2.y);
-    ansz=(tempz1<tempz2&&z>=car2.z)||(tempz1>tempz2&&z<=car2.z);   
-     
-    x=tempx1;y=tempy1;car2.x=tempx2;car2.y=tempy2;z=tempz1;car2.z=tempz2;     //we are resetting the coordinates of cars to initial ones as they got changed after calling move function
-    return (ansx||ansy)||(ansx||ansz)||(ansz||ansy);
+  bool detect_collision(car car2){
+  
+    bool ans;
+    if((x==car2.x&&speed_x==car2.speed_x))
+    {
+            if((car2.y-y>0&&speed_y>car2.speed_y)*(car2.y-y<0&&speed_y>car2.speed_y))
+            ans=true;
+            else
+            ans=false;
+            return ans;
+    }
+    if((y==car2.y&&speed_y==car2.speed_y))
+    {
+            if((car2.x-x>0&&speed_x>car2.speed_x)(car2.x-x<0&&speed_x<car2.speed_x))
+            ans=true;
+            else
+            ans=false;
+            return ans;
+    }
+    return (((car2.y-y)/(double)(speed_y-car2.speed_y))==((car2.x-x)/(double)(speed_x-car2.speed_x)));
+    
     }   
+    double time_to_collision(car car2){
+   
+    double t=-1;
+    
+        if(this->detect_collision(car2)){
+            //tx=min();
+            if((x==car2.x&&speed_x==car2.speed_x))
+            return (car2.y-y)/((double)(speed_y-car2.speed_y));
+            if((y==car2.y&&speed_y==car2.speed_y))
+            return (car2.x-x)/((double)(speed_x-car2.speed_x));
+            return ((car2.y-y)/(double)(speed_y-car2.speed_y));
+        }
+        return t;
+
+            
+    }    
+};
     double time_to_collision(car car2){
      
     double tx=-1.0,ty=-1.0,tz=-1.0;
